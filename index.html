@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +30,11 @@ color:white;
 border:none;
 cursor:pointer;
 margin-top:10px;
+border-radius:5px;
+}
+
+button:hover{
+background:#996f00;
 }
 
 #result{
@@ -85,27 +89,35 @@ font-weight:bold;
 
 <script>
 
-const validCodes = [
-"KSP-000001",
-"KSP-000002",
-"KSP-000003",
-"KSP-000004",
-"KSP-000005"
-];
-
 function verifyProduct(){
 
-let code=document.getElementById("serial").value.trim().toUpperCase();
+let code = document.getElementById("serial").value.trim().toUpperCase();
 
-if(validCodes.includes(code)){
+if(code.startsWith("KSP-")){
 
-document.getElementById("result").innerHTML=
-"✅ PRODUCT VERIFIED<br><br>Serial Number: "+code+"<br>Status: Original Kuu Spa+ Product";
+let number = parseInt(code.substring(4),10);
+
+if(number >= 1 && number <= 2000){
+
+document.getElementById("result").innerHTML =
+"🟢 <b>ORIGINAL KUU SPA+ PRODUCT</b><br><br>" +
+"<b>Product:</b> Kuu Spa+ Turmeric Whitening Serum<br>" +
+"<b>Serial Number:</b> " + code + "<br>" +
+"<b>Status:</b> VERIFIED ✅<br><br>" +
+"Thank you for purchasing an authentic Kuu Spa+ product.";
 
 }else{
 
-document.getElementById("result").innerHTML=
-"❌ Verification Failed.<br>Invalid Serial Number.";
+document.getElementById("result").innerHTML =
+"🔴 <b>VERIFICATION FAILED</b><br><br>" +
+"The serial number is not registered.";
+
+}
+
+}else{
+
+document.getElementById("result").innerHTML =
+"🔴 <b>Invalid Serial Number Format</b>";
 
 }
 
