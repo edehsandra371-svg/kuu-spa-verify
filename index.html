@@ -89,7 +89,17 @@ font-weight:bold;
 
 <script>
 
+let validSerials = [];
+
+fetch("serials.json")
+.then(response => response.json())
+.then(data => {
+validSerials = data;
+});
+
 function verifyProduct(){
+
+
 
 let code = document.getElementById("serial").value.trim().toUpperCase();
 
