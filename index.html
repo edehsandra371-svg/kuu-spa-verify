@@ -103,11 +103,10 @@ function verifyProduct(){
 
 let code = document.getElementById("serial").value.trim().toUpperCase();
 
-if(code.startsWith("KSP-")){
+if(validSerials.includes(code)){
 
-let number = parseInt(code.substring(4),10);
 
-if(number >= 1 && number <= 2000){
+
 
 document.getElementById("result").innerHTML =
 "🟢 <b>ORIGINAL KUU SPA+ PRODUCT</b><br><br>" +
