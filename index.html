@@ -116,12 +116,16 @@ fetch("https://edehsandra371-svg.github.io/kuu-spa-verify/batch1_serials.json")
 .then(response=>response.json())
 .then(data=>{
 
+console.log(data);
+
 serialDatabase = data;
 
-console.log("Database loaded:", serialDatabase.length);
+document.getElementById("status").innerHTML =
+"✅ " + serialDatabase.length + " serial numbers loaded.";
 
-document.getElementById("status").innerHTML=
-"✅ "+serialDatabase.length+" serial numbers loaded.";
+alert("Loaded " + serialDatabase.length + " serial numbers");
+
+})
 
 alert("First serial: " + serialDatabase[0]);
 alert("Last serial: " + serialDatabase[serialDatabase.length-1]
