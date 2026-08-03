@@ -94,7 +94,13 @@ let validSerials = [];
 fetch("batch1_serials.json")
 .then(response => response.json())
 .then(data => {
-validSerials = data;
+    validSerials = data;
+    console.log("Loaded serials:", validSerials.length);
+})
+.catch(error => {
+    document.getElementById("result").innerHTML =
+    "Error loading serial database.";
+    console.error(error);
 });
 
 function verifyProduct(){
