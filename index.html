@@ -112,7 +112,7 @@ Loading serial database...
 
 let serialDatabase=[];
 
-fetch("./batch1_serials.json?v=1")
+fetch("https://edehsandra371-svg.github.io/kuu-spa-verify/batch1_serials.json")
 .then(response=>response.json())
 .then(data=>{
 
@@ -124,15 +124,13 @@ document.getElementById("status").innerHTML=
 "✅ "+serialDatabase.length+" serial numbers loaded.";
 
 alert("First serial: " + serialDatabase[0]);
-alert("Last serial: " + serialDatabase[serialDatabase.length-1]);
-
-})
+alert("Last serial: " + serialDatabase[serialDatabase.length-1]
 .catch(error=>{
 
-document.getElementById("status").innerHTML=
-"❌ Could not load serial database.";
+document.getElementById("status").innerHTML =
+"❌ Database error: " + error.message;
 
-console.error(error);
+console.error("Database loading failed:", error);
 
 });
 
