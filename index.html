@@ -1,132 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Kuu Spa+ Verification</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuu Spa+ Product Verification</title>
 
 <style>
 body{
-font-family:Arial,sans-serif;
-text-align:center;
-background:#fff8dc;
-padding:20px;
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f7f7f7;
+}
+
+.container{
+    max-width:500px;
+    margin:40px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+    text-align:center;
 }
 
 img{
-width:250px;
-margin:20px;
+    width:180px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+h1{
+    color:#b8860b;
+    margin-bottom:10px;
 }
 
 input{
-padding:10px;
-width:250px;
-font-size:16px;
+    width:100%;
+    padding:14px;
+    font-size:16px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    box-sizing:border-box;
 }
 
 button{
-padding:10px 20px;
-font-size:16px;
-background:#b8860b;
-color:white;
-border:none;
-cursor:pointer;
-margin-top:10px;
-border-radius:5px;
+    width:100%;
+    margin-top:15px;
+    padding:14px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    background:#b8860b;
+    color:white;
+    cursor:pointer;
 }
 
 button:hover{
-background:#996f00;
+    background:#966d00;
 }
 
-#result{
-margin-top:20px;
-font-size:20px;
-font-weight:bold;
+#status{
+    margin-top:15px;
+    color:#555;
+    font-size:14px;
+}
+
+.success{
+    margin-top:20px;
+    padding:15px;
+    background:#d4edda;
+    color:#155724;
+    border-radius:10px;
+}
+
+.error{
+    margin-top:20px;
+    padding:15px;
+    background:#f8d7da;
+    color:#721c24;
+    border-radius:10px;
 }
 </style>
 
 </head>
-
 <body>
 
-<h1>Kuu Spa+ Turmeric Whitening Serum</h1>
+<div class="container">
 
-<img src="file_00000000366081f49e0c1df82b188d4a.png" alt="Kuu Spa+ Whitening Serum">
+<img src="product.jpg" alt="Kuu Spa+">
 
-<h2>Product Details</h2>
+<h1>Kuu Spa+ Product Verification</h1>
 
-<p><b>Product Name:</b> Kuu Spa+ Turmeric Whitening Serum</p>
+<p>Enter your serial number below.</p>
 
-<p><b>Description:</b> Premium skincare serum formulated to help brighten, hydrate and nourish the skin.</p>
+<input
+id="serial"
+placeholder="Example: KSP-B1-000001">
 
-<h3>Ingredients</h3>
+<button onclick="verifySerial()">
+Verify Product
+</button>
 
-<ul>
-<li>Hyaluronic Acid Powder</li>
-<li>Vegetable Glycerin</li>
-<li>Vitamin C Oil</li>
-<li>Turmeric Extract</li>
-</ul>
+<div id="status">
+Loading serial database...
+</div>
 
-<h3>Benefits</h3>
+<div id="result"></div>
 
-<ul>
-<li>Helps improve skin glow</li>
-<li>Provides hydration</li>
-<li>Supports smooth and healthy-looking skin</li>
-</ul>
-
-<hr>
-
-<h2>Verify Your Product</h2>
-
-<input type="text" id="serial" placeholder="Enter Serial Number">
-
-<br><br>
-
-<button onclick="verifyProduct()">Verify Product</button>
-
-<p id="result"></p>
+</div>
 
 <script>
 
-let validSerials = [];
+let serialDatabase=[];
 
 fetch("batch1_serials.json")
-.then(response => response.json())
-.then(data => {
-    validSerials = data;
-    console.log("Loaded serials:", validSerials.length);
+.then(response=>response.json())
+.then(data=>{
+
+serialDatabase=data;
+
+document.getElementById("status").innerHTML=
+"✅ "+serialDatabase.length+" serial numbers loaded.";
+
 })
-.catch(error => {
-    document.getElementById("result").innerHTML =
-    "Error loading serial database.";
-    console.error(error);
+.catch(error=>{
+
+document.getElementById("status").innerHTML=
+"❌ Could not load serial database.";
+
+console.error(error);
+
 });
 
-function verifyProduct(){
+function verifySerial(){
 
+const code=document
+.getElementById("serial")
+.value
+.trim()
+.toUpperCase();
 
+const result=document.getElementById("result");
 
-let code = document.getElementById("serial").value.trim().toUpperCase();
+if(serialDatabase.includes(code)){
 
-if(validSerials.includes(code)){
+result.innerHTML=`
+<div class="success">
+<h2>✅ AUTHENTIC PRODUCT</h2>
 
+<p><strong>Kuu Spa+ Whitening Serum</strong></p>
 
+<p>Serial Number:</p>
 
+<p><strong>${code}</strong></p>
 
-document.getElementById("result").innerHTML =
-"🟢 <b>ORIGINAL KUU SPA+ PRODUCT</b><br><br>" +
-"<b>Product:</b> Kuu Spa+ Turmeric Whitening Serum<br>" +
-"<b>Serial Number:</b> " + code + "<br>" +
-"<b>Status:</b> VERIFIED ✅<br><br>" +
-"Thank you for purchasing an authentic Kuu Spa+ product.";
-
+<p>This product is genuine.</p>
+</div>
+`;
 
 }else{
 
-document.getElementById("result").innerHTML =
-"🔴 <b>VERIFICATION FAILED</b><br><br>" +
-"The serial number is not registered.";
+result.innerHTML=`
+<div class="error">
+<h2>❌ INVALID SERIAL NUMBER</h2>
+
+<p>The serial number was not found.</p>
+
+<p>Please contact your distributor if you believe this is an error.</p>
+</div>
+`;
 
 }
 
