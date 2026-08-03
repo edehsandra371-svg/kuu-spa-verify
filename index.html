@@ -121,6 +121,9 @@ serialDatabase=data;
 document.getElementById("status").innerHTML=
 "✅ "+serialDatabase.length+" serial numbers loaded.";
 
+alert("First serial: " + serialDatabase[0]);
+alert("Last serial: " + serialDatabase[serialDatabase.length-1]);
+
 })
 .catch(error=>{
 
