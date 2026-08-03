@@ -88,7 +88,7 @@ button:hover{
 
 <img src="product.jpg" alt="Kuu Spa+">
 
-<h1>Kuu Spa+ Product Verification</h1>
+<h1>Kuu Spa+ Product Verification V2</h1>
 
 <p>Enter your serial number below.</p>
 
@@ -112,11 +112,13 @@ Loading serial database...
 
 let serialDatabase=[];
 
-fetch("batch1_serials.json")
+fetch("./batch1_serials.json?v=1")
 .then(response=>response.json())
 .then(data=>{
 
-serialDatabase=data;
+serialDatabase = data;
+
+console.log("Database loaded:", serialDatabase.length);
 
 document.getElementById("status").innerHTML=
 "✅ "+serialDatabase.length+" serial numbers loaded.";
