@@ -110,47 +110,50 @@ Loading serial database...
 
 <script>
 
-let serialDatabase=[];
+let serialDatabase = [];
 
-fetch("https://edehsandra371-svg.github.io/kuu-spa-verify/batch1_serials.json")
-.then(response=>response.json())
-.then(data=>{
+fetch("batch1_serials.json")
+.then(response => {
+    if (!response.ok) {
+        throw new Error("Could not find database file");
+    }
+    return response.json();
+})
+.then(data => {
 
-console.log(data);
+    serialDatabase = data;
 
-serialDatabase = data;
+    document.getElementById("status").innerHTML =
+    "✅ " + serialDatabase.length + " serial numbers loaded.";
 
-document.getElementById("status").innerHTML =
-"✅ " + serialDatabase.length + " serial numbers loaded.";
-
-alert("Loaded " + serialDatabase.length + " serial numbers");
+    console.log("First serial:", serialDatabase[0]);
+    console.log("Last serial:", serialDatabase[serialDatabase.length - 1]);
 
 })
+.catch(error => {
 
-alert("First serial: " + serialDatabase[0]);
-alert("Last serial: " + serialDatabase[serialDatabase.length-1]
-.catch(error=>{
+    document.getElementById("status").innerHTML =
+    "❌ Database error: " + error.message;
 
-document.getElementById("status").innerHTML =
-"❌ Database error: " + error.message;
-
-console.error("Database loading failed:", error);
+    console.error(error);
 
 });
 
+
 function verifySerial(){
 
-const code=document
+const code = document
 .getElementById("serial")
 .value
 .trim()
 .toUpperCase();
 
-const result=document.getElementById("result");
+const result = document.getElementById("result");
+
 
 if(serialDatabase.includes(code)){
 
-result.innerHTML=`
+result.innerHTML = `
 <div class="success">
 <h2>✅ AUTHENTIC PRODUCT</h2>
 
@@ -161,18 +164,97 @@ result.innerHTML=`
 <p><strong>${code}</strong></p>
 
 <p>This product is genuine.</p>
+
 </div>
 `;
 
 }else{
 
-result.innerHTML=`
+result.innerHTML = `
 <div class="error">
 <h2>❌ INVALID SERIAL NUMBER</h2>
 
 <p>The serial number was not found.</p>
 
 <p>Please contact your distributor if you believe this is an error.</p>
+
+</div>
+`;
+
+}
+
+}
+
+</script><script>
+
+let serialDatabase = [];
+
+fetch("batch1_serials.json")
+.then(response => {
+    if (!response.ok) {
+        throw new Error("Could not find database file");
+    }
+    return response.json();
+})
+.then(data => {
+
+    serialDatabase = data;
+
+    document.getElementById("status").innerHTML =
+    "✅ " + serialDatabase.length + " serial numbers loaded.";
+
+    console.log("First serial:", serialDatabase[0]);
+    console.log("Last serial:", serialDatabase[serialDatabase.length - 1]);
+
+})
+.catch(error => {
+
+    document.getElementById("status").innerHTML =
+    "❌ Database error: " + error.message;
+
+    console.error(error);
+
+});
+
+
+function verifySerial(){
+
+const code = document
+.getElementById("serial")
+.value
+.trim()
+.toUpperCase();
+
+const result = document.getElementById("result");
+
+
+if(serialDatabase.includes(code)){
+
+result.innerHTML = `
+<div class="success">
+<h2>✅ AUTHENTIC PRODUCT</h2>
+
+<p><strong>Kuu Spa+ Whitening Serum</strong></p>
+
+<p>Serial Number:</p>
+
+<p><strong>${code}</strong></p>
+
+<p>This product is genuine.</p>
+
+</div>
+`;
+
+}else{
+
+result.innerHTML = `
+<div class="error">
+<h2>❌ INVALID SERIAL NUMBER</h2>
+
+<p>The serial number was not found.</p>
+
+<p>Please contact your distributor if you believe this is an error.</p>
+
 </div>
 `;
 
